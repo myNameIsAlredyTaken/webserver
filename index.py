@@ -21,14 +21,14 @@ def login():
         p = request.form["password"]
         db = get_db()
         cur = db.cursor()
-        query = f"SELECT * FROM users WHERE username='{u}' AND password='{p}'"
-        cur.execute(query)
+        query = "SELECT * FROM users WHERE username=%s AND password=%s"
+        cur.execute(query, (u, p))
         row = cur.fetchone()
         db.close()
         if row:
             msg = f"Welcome {u}"
         else:
-            msg = f"Login failed for: {u}"
+            msg = "Login failed"
     return f'''
     <form method="post">
         Username: <input name="username"><br>
